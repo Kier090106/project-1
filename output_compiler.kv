@@ -1,0 +1,127 @@
+creenManager:
+    MenuScreen:
+        name: 'menu'
+    FolderScreen:
+        name: 'folder'
+    CameraScannerScreen:
+        name: 'scanner'
+
+<MenuScreen>:
+    name: 'menu'
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: dp(20)
+        padding: dp(20)
+
+        MDLabel:
+            text: "Output Compiler"
+            halign: "center"
+            font_style: "H3"
+            theme_text_color: "Secondary"
+
+        MDRaisedButton:
+            text: "Create and Manage Folders"
+            pos_hint: {"center_x": 0.5}
+            on_release: app.change_screen("folder")
+
+        MDRaisedButton:
+            text: "Fetch Files"
+            pos_hint: {"center_x": 0.5}
+            on_release: app.open_file_manager()
+
+        MDRaisedButton:
+            text: "Compile to PDF"
+            pos_hint: {"center_x": 0.5}
+            on_release: app.compile_to_pdf()
+
+        MDRaisedButton:
+            text: "Scan Documents"
+            pos_hint: {"center_x": 0.5}
+            on_release: app.change_screen("scanner")
+
+        MDLabel:
+            text: "Selected Files:"
+            halign: "left"
+            theme_text_color: "Primary"
+            size_hint_y: None
+            height: self.texture_size[1] + dp(10)
+
+        ScrollView:
+            size_hint: (1, 0.4)
+            MDList:
+                id: file_list
+
+        MDRaisedButton:
+            text: "Exit"
+            pos_hint: {"center_x": 0.5}
+            on_release: app.stop()
+
+<FolderScreen>:
+    name: 'folder'
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: dp(20)
+        spacing: dp(20)
+
+        MDLabel:
+            text: "Folder Management"
+            halign: "center"
+            font_style: "H3"
+            theme_text_color: "Secondary"
+
+        MDTextField:
+            id: new_folder_name
+            hint_text: "Enter Folder Name"
+            size_hint_y: None
+            height: dp(40)
+
+        MDRaisedButton:
+            text: "Create Folder"
+            pos_hint: {"center_x": 0.5}
+            on_release: app.create_folder()
+
+        MDLabel:
+            text: "Folders:"
+            halign: "left"
+            theme_text_color: "Primary"
+            size_hint_y: None
+            height: self.texture_size[1] + dp(10)
+
+        ScrollView:
+            size_hint: (1, 0.5)
+            MDList:
+                id: folder_list
+
+        MDRaisedButton:
+            text: "Back"
+            pos_hint: {"center_x": 0.5}
+            on_release: app.change_screen("menu")
+
+<CameraScannerScreen>:
+    name: 'scanner'
+    BoxLayout:
+        orientation: 'vertical'
+        Camera:
+            id: camera
+            resolution: (640, 480)
+            play: True
+            size_hint_y: 0.7
+        
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: 0.3
+            spacing: dp(10)
+            padding: dp(10)
+            
+            Button:
+                text: "Capture"
+                size_hint_y: None
+                height: dp(50)
+                on_release: app.capture_image()
+            
+            MDRaisedButton:
+                text: "Back to Menu"
+                pos_hint: {"center_x": 0.5}
+                size_hint_y: None
+                height: dp(50)
+                on_release: app.change_screen("menu")
